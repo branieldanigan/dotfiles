@@ -133,10 +133,10 @@ mode "resize" {
         bindsym semicolon resize grow width 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 5 px or 5 ppt
-        bindsym Down resize grow height 5 px or 5 ppt
-        bindsym Up resize shrink height 5 px or 5 ppt
-        bindsym Right resize grow width 5 px or 5 ppt
+        bindsym Left resize shrink width 2 px or 2 ppt
+        bindsym Down resize grow height 2 px or 2 ppt
+        bindsym Up resize shrink height 2 px or 2 ppt
+        bindsym Right resize grow width 2 px or 2 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -149,19 +149,21 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status ~./.i3status.conf
+        #status_command ~/conkyi3.sh
+        #status_command python ~/i3pythonbar.py
         font xft:Terminus 9 
         position top
     
 
 
  colors {
-        background #151515
+        background #181512
                                                          
-        statusline #E1AA5D                                                         
+        statusline #8c644c                                                         
         separator #666666                                                          
-        focused_workspace  #151515 #151515 #E1AA5D                                 
+        focused_workspace  #181512 #181512 #bec17e                                 
         active_workspace   #777777 #222222 #888888                                 
-        inactive_workspace #151515 #151515 #B8D68C                                 
+        inactive_workspace #181512 #181512 #332d29                                 
         urgent_workspace   #2f343a #900000 #ffffff        
 	}
 }
@@ -185,20 +187,34 @@ client.urgent             #0F0F0F #BC9B54 #E5E5E5
 #bindsym XF86MonBrightnessUp exec xbacklight -inc 5
 #bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
+#Lock and Power Settings
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/i3exit lock, mode "default"
+    bindsym e exec --no-startup-id ~/i3exit logout, mode "default"
+    bindsym s exec --no-startup-id ~/i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id ~/i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id ~/i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/i3exit shutdown, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym XF86PowerOff mode "$mode_system"
+
+
 #No Title Bar
 new_window 1pixel
 
+#bindsym $mod + l i3lock
 
+#exec --no-startup-id xss-lock -- i3lock -i ~/Pictures/mtndrk.png &
+#exec xss-lock -- i3lock -i ~/Pictures/mtndrk.png &
+#exec --no-startup-id xset dpms 30 &
+#exec xautolock -time 1 -locker i3lock -i ~Pictures/mtndrk.png &
 exec gnome-settings-daemon &
-
-exec feh --bg-scale ~/Pictures/tree.jpg &
-   
-#Start Nitrogen when loaded
-#exec --no-startup-id nitrogen --restore &
-#exec dropboxd &
-exec --no-startup-id nm-applet
+#exec feh --bg ~/Pictures/mtn.jpg &
+exec --no-startup-id nm-applet &
 exec mpd /etc/mpd.conf &
-#exec --no-startup-id sh ~/.fehbg &
-#exec ~/.monitors.sh
-
 
